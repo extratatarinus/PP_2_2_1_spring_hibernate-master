@@ -13,8 +13,7 @@ public class Car {
     private String carName;
     @Column(name = "series")
     private int series;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @OneToOne(mappedBy = "car")
     private User user;
 
     public Car() {
@@ -57,6 +56,7 @@ public class Car {
     public void setUser(User user) {
         this.user = user;
     }
+
     @Override
     public String toString() {
         return carName + ' ' + series;
