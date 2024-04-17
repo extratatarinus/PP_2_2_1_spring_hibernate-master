@@ -10,5 +10,5 @@ public interface UserService {
 
     List<User> listUsers();
 
-    void add(Car car);
+    User getUserByCar(String model, int series);
 }
