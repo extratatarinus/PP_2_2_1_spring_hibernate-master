@@ -28,7 +28,7 @@ public class UserDaoImp implements UserDao {
         String hql = "FROM User u";
         TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery(hql, User.class);
         EntityGraph<User> entityGraph = sessionFactory.getCurrentSession().createEntityGraph(User.class);
-        entityGraph.addAttributeNodes("cars");
+        entityGraph.addAttributeNodes("car");
         query.setHint("javax.persistence.fetchgraph", entityGraph);
         return query.getResultList();
     }
@@ -36,9 +36,10 @@ public class UserDaoImp implements UserDao {
     @Override
     @SuppressWarnings("unchecked")
     public User getUserByCar(String model, int series) {
-        String hql = "from User user where user.car.model = :model and user.car.series = :series";
-        TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setParameter("model", model).setParameter("series", series);
+        String hql = "FROM User user JOIN FETCH user.car car WHERE car.model = :model AND car.series = :series";
+        TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery(hql, User.class);
+        query.setParameter("model", model);
+        query.setParameter("series", series);
         return query.setMaxResults(1).getSingleResult();
     }
 
